@@ -3,8 +3,7 @@
 #include <iostream>
 #include <vector>
 
-namespace utec {
-namespace spatial {
+namespace utec::spatial {
 
 template<typename Node, typename Rectangle, typename Point>
 QuadTree<Node, Rectangle, Point>::QuadTree() {
@@ -21,11 +20,7 @@ void QuadTree<Node, Rectangle, Point>::insert(Point new_point) {
 
 template<typename Node, typename Rectangle, typename Point>
 std::shared_ptr<Node> &QuadTree<Node, Rectangle, Point>::search(Point target, std::shared_ptr<Node> &node) {
-  if (node == nullptr) {
-    return node; //not found
-  } else if (node->get_point() == target) {
-    return node;
-  }
+  if (node == nullptr or node->get_point() == target) return node;
 
   auto cur_point = node->get_point();
 
@@ -50,13 +45,6 @@ std::shared_ptr<Node> QuadTree<Node, Rectangle, Point>::search(Point target) {
 }
 
 template<typename Node, typename Rectangle, typename Point>
-std::vector<Point> QuadTree<Node, Rectangle, Point>::range(Rectangle region) {
-  std::vector<Point> points;
-  range(region, this->root, points);
-  return points;
-}
-
-template<typename Node, typename Rectangle, typename Point>
 void QuadTree<Node, Rectangle, Point>::range(Rectangle region,
                                              std::shared_ptr<Node> &node,
                                              std::vector<Point> &points) {
@@ -71,9 +59,15 @@ void QuadTree<Node, Rectangle, Point>::range(Rectangle region,
 }
 
 template<typename Node, typename Rectangle, typename Point>
+std::vector<Point> QuadTree<Node, Rectangle, Point>::range(Rectangle region) {
+  std::vector<Point> points;
+  range(region, this->root, points);
+  return points;
+}
+
+template<typename Node, typename Rectangle, typename Point>
 Point QuadTree<Node, Rectangle, Point>::nearest_neighbor(Point reference) {
   // TODO
 }
 
-} //spatial
 } //utec

@@ -1,14 +1,13 @@
 #pragma once
 
-namespace utec {
-namespace spatial {
+namespace utec::spatial {
 
 template<typename Point>
 class Rectangle {
  public:
   Rectangle(Point min, Point max) : _min(min), _max(max) {}
 
-  bool contains(Point point) {
+  inline bool contains(Point point) {
     const int x = 0, y = 1;
     return point.get(x) >= _min.get(x) and
         point.get(x) <= _max.get(x) and
@@ -21,5 +20,4 @@ class Rectangle {
   Point _max;
 };
 
-} //spatial
 } //utec

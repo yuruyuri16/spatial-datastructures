@@ -3,8 +3,7 @@
 #include <cmath>
 #include <array>
 
-namespace utec {
-namespace spatial {
+namespace utec::spatial {
 
 using distance_t = double;
 
@@ -51,5 +50,4 @@ inline distance_t Point<DataType, DIM>::distance(const Point<DataType, DIM> &p) 
   return sqrt(acum);
 }
 
-} //spatial
 } //utec

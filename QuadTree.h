@@ -2,8 +2,7 @@
 
 #include "SpatialTreeBase.h"
 
-namespace utec {
-namespace spatial {
+namespace utec::spatial {
 
 /**
  * Point QuadTree implementation
@@ -20,6 +19,13 @@ class QuadTree : public SpatialTreeBase<Node, Rectangle, Point> {
    * @return Retorna referencia al Nodo que contiene o podría contener el punto buscado
    */
   std::shared_ptr<Node> &search(Point target, std::shared_ptr<Node> &node);
+  /**
+   * Función recursiva de busqueda espacial.
+   *
+   * @param region Rectangulo donde buscar los puntos
+   * @param node Nodo actual
+   * @param points Lista de puntos dentro la region
+   */
   void range(Rectangle region, std::shared_ptr<Node> &node, std::vector<Point> &points);
 
  public:
@@ -30,7 +36,6 @@ class QuadTree : public SpatialTreeBase<Node, Rectangle, Point> {
   Point nearest_neighbor(Point reference_point) override;
 };
 
-} //spatial
 } //utec
 
 #include "QuadTree.inl"

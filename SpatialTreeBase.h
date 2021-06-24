@@ -1,7 +1,6 @@
 #pragma once
 
-namespace utec {
-namespace spatial {
+namespace utec::spatial {
 
 template<typename Node, typename Rectangle, typename Point>
 class SpatialTreeBase {
@@ -15,5 +14,4 @@ class SpatialTreeBase {
   std::shared_ptr<Node> root;
 };
 
-} //spatial
 } //utec
