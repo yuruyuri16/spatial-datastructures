@@ -67,7 +67,7 @@ std::vector<Point> QuadTree<Node, Rectangle, Point>::range(Rectangle region) {
 
 template<typename Node, typename Rectangle, typename Point>
 Point QuadTree<Node, Rectangle, Point>::nearest_neighbor(Point reference) {
-  // TODO
+  return Point({0});
 }
 
 } //utec

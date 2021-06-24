@@ -87,7 +87,7 @@ TEST_P(QuadTreeParamTest, randomRangeTest) {
   EXPECT_NE(result.size(), 0);
 }
 
-INSTANTIATE_TEST_CASE_P
+INSTANTIATE_TEST_SUITE_P
 (
     GetMaxThreads,
     QuadTreeParamTest,
