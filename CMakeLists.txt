@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(spatial_implementation)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -13,6 +13,13 @@ FetchContent_Declare(
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+# BOOST
+# RUN brew install boost in your terminal and configure the destination files
+set(Boost_INCLUDE_DIR /usr/local/Cellar/boost/1.76.0/include)
+set(Boost_LIBRARY_DIR /usr/local/Cellar/boost/1.76.0/lib)
+find_package(Boost COMPONENTS system filesystem REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
 
 FetchContent_MakeAvailable(
   googletest)

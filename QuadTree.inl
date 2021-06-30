@@ -3,64 +3,84 @@
 #include <iostream>
 #include <vector>
 
-namespace utec
-{
-namespace spatial
-{
-
+namespace utec::spatial {
 template<typename Node, typename Rectangle, typename Point>
-QuadTree<Node, Rectangle, Point>::QuadTree(){
-    this->root=nullptr;
+QuadTree<Node, Rectangle, Point>::QuadTree() {
+  this->root = nullptr;
 }
 
 template<typename Node, typename Rectangle, typename Point>
-void QuadTree<Node, Rectangle, Point>::insert(Point new_point){
-    std::shared_ptr<Node>& target = search(new_point, this->root);
-    if(target==nullptr){
-        target=std::make_shared<Node>(new_point);
-    }
+void QuadTree<Node, Rectangle, Point>::insert(Point new_point) {
+  std::shared_ptr<Node> &target = search(new_point, this->root);
+  if (target == nullptr) {
+    target = std::make_shared<Node>(new_point);
+  }
 }
 
 template<typename Node, typename Rectangle, typename Point>
-std::shared_ptr<Node>& QuadTree<Node, Rectangle, Point>::search(Point target, std::shared_ptr<Node>& node){
-    if(node == nullptr){
-        return node; //not found
-    } else if(node->get_point() == target){
-        return node;
-    }
-    
-    auto cur_point = node->get_point();
+std::shared_ptr<Node> &QuadTree<Node, Rectangle, Point>::search(Point target, std::shared_ptr<Node> &node) {
+  if (node == nullptr) {
+    return node; //not found
+  } else if (node->get_point() == target) {
+    return node;
+  }
 
-    const int x=0, y=1;
+  auto cur_point = node->get_point();
 
-    if(target.get(x) < cur_point.get(x)){
-        if(target.get(y) > cur_point.get(y))
-            return search(target, node->NW());
-        else
-            return search(target, node->SW());
-    }else{
-        if(target.get(y) > cur_point.get(y))
-            return search(target, node->NE());
-        else
-            return search(target, node->SE());
-    }
+  const int x = 0, y = 1;
+
+  if (target.get(x) < cur_point.get(x)) {
+    if (target.get(y) > cur_point.get(y))
+      return search(target, node->NW());
+    else
+      return search(target, node->SW());
+  } else {
+    if (target.get(y) > cur_point.get(y))
+      return search(target, node->NE());
+    else
+      return search(target, node->SE());
+  }
 }
 
 template<typename Node, typename Rectangle, typename Point>
-std::shared_ptr<Node> QuadTree<Node, Rectangle, Point>::search(Point target){
-    return search(target, this->root);
+std::shared_ptr<Node> QuadTree<Node, Rectangle, Point>::search(Point target) {
+  return search(target, this->root);
 }
 
 template<typename Node, typename Rectangle, typename Point>
-std::vector<Point> QuadTree<Node, Rectangle, Point>::range(Rectangle region){
-    //TODO
-    return std::vector<Point>();
+void QuadTree<Node, Rectangle, Point>::range(Rectangle region,
+                                             std::shared_ptr<Node> &node,
+                                             std::vector<Point> &points) {
+
+  if (node == nullptr) return;
+
+  Point cur_point = node->get_point();
+  if (region.contains(cur_point))
+    points.push_back(cur_point);
+  const int x = 0, y = 1;
+  if (region.min().get(x) <= cur_point.get(x) and region.max().get(y) >= cur_point.get(y))
+    range(region, node->NW(), points);
+
+  if (region.max().get(x) >= cur_point.get(x) and region.max().get(y) >= cur_point.get(y))
+    range(region, node->NE(), points);
+
+  if (region.min().get(x) <= cur_point.get(x) and region.min().get(y) <= cur_point.get(y))
+    range(region, node->SW(), points);
+
+  if (region.max().get(x) >= cur_point.get(x) and region.min().get(y) <= cur_point.get(y))
+    range(region, node->SE(), points);
 }
 
 template<typename Node, typename Rectangle, typename Point>
-Point QuadTree<Node, Rectangle, Point>::nearest_neighbor(Point reference){
-    // TODO
+std::vector<Point> QuadTree<Node, Rectangle, Point>::range(Rectangle region) {
+  std::vector<Point> points;
+  range(region, this->root, points);
+  return points;
 }
 
-} //spatial
+template<typename Node, typename Rectangle, typename Point>
+Point QuadTree<Node, Rectangle, Point>::nearest_neighbor(Point reference) {
+  // TODO
+}
+
 } //utec
